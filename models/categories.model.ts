@@ -1,4 +1,4 @@
-class Category {
+export class Category {
     private id: string
     private name: string
     private description: string
@@ -38,4 +38,3 @@ class Category {
     }
 }
 
-module.exports = Category;
