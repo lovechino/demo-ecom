@@ -11,4 +11,8 @@ export class ProductService {
         const res: ProductType[] = await publicApi.post("/product/GetProductByCategoryId", {id}).then((data) => data.data).catch((err) => {throw new Error(err)})
         return res.map((item) => new ProductModel(item.id, item.name, item.description, item.price, item.stock, item.image_url, item.category, item.category_id))
     }
+    async getProductDetail(id:string) : Promise<ProductModel[]>{
+        const res: ProductType[] = await publicApi.post("/product/GetProductById", {id}).then((data) => data.data).catch((err) => {throw new Error(err)})
+        return res.map((item) => new ProductModel(item.id, item.name, item.description, item.price, item.stock, item.image_url, item.category, item.category_id))
+    }
 }
