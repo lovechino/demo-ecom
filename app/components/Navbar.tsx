@@ -30,7 +30,7 @@ export default function Navbar() {
   const searchParams = useSearchParams();
   const { totalQuantity } = useCart();
 
-  const activeCategory = searchParams.get("category") || "";
+  const activeCategory = searchParams?.get("category") || "";
 
   useEffect(() => {
     let mounted = true;
@@ -62,7 +62,7 @@ export default function Navbar() {
   const categories = useMemo(() => vm.category ?? [], [vm.category]);
 
   const onSelectCategory = (id: string | null) => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams?.toString() || "");
     if (id) params.set("category", id);
     else params.delete("category");
     router.push(`${pathname}?${params.toString()}`);

@@ -10,7 +10,7 @@ export default function ProductGrid() {
   const [error, setError] = useState<string | null>(null);
   const searchParams = useSearchParams();
 
-  const categoryId = searchParams.get("category");
+  const categoryId = searchParams?.get("category") || null;
 
   useEffect(() => {
     let mounted = true;

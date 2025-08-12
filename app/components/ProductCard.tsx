@@ -1,10 +1,25 @@
 "use client";
 import { ProductModel } from "@/models/product.model";
-import { useCart } from "./CartContext";
+import { CartViewModel } from "@/viewmodels/CartViewModel";
+import { useState } from "react";
 import Link from "next/link";
 
 export default function ProductCard({ product }: { product: ProductModel }) {
-  const { addToCart } = useCart();
+  const [vm] = useState(() => new CartViewModel());
+  const [isAdding, setIsAdding] = useState(false);
+
+  const handleAddToCart = async () => {
+    setIsAdding(true);
+    try {
+      await vm.insertCart(product.getId(), 1);
+      // Có thể thêm thông báo thành công ở đây
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      // Có thể thêm thông báo lỗi ở đây
+    } finally {
+      setIsAdding(false);
+    }
+  };
 
   return (
     <div className="flex flex-col rounded-lg border p-3">
@@ -31,10 +46,11 @@ export default function ProductCard({ product }: { product: ProductModel }) {
       <div className="mt-2 flex items-center justify-between">
         <div className="text-base font-semibold">{product.getPrice().toLocaleString()} đ</div>
         <button
-          className="rounded bg-black px-3 py-1.5 text-sm text-white hover:opacity-90"
-          onClick={() => addToCart(product, 1)}
+          className="rounded bg-black px-3 py-1.5 text-sm text-white hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+          onClick={handleAddToCart}
+          disabled={isAdding}
         >
-          Thêm vào giỏ
+          {isAdding ? "Đang thêm..." : "Thêm vào giỏ"}
         </button>
       </div>
     </div>
